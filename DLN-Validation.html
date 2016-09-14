@@ -3,13 +3,14 @@
 <link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
-<link rel="import" href="../paper-ripple/paper-ripple.html">
+<link rel="import" href="../bower_components/paper-ripple/paper-ripple.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
 
 
 
-<dom-module id="DriverLicenseNumber">
+<dom-module id="DLN-Validation">
     <style>
-        :host {
+         :host {
             display: block;
         }
 
@@ -34,227 +35,414 @@
         paper-ripple {
             color: purple;
         }
+
+        paper-button {
+            border: 1px solid #ccc;
+        }
     </style>
 
     <template>
-        <paper-dropdown-menu label="state" id="state" autocomplete required auto-validate="[[autoValidate]]" invalid="{{_stateInvalid}}" error-message="please select state">
+        <paper-dropdown-menu label="STATE" id="state" autocomplete required auto-validate="[[autoValidate]]" invalid="{{_stateInvalid}}" error-message="please select state">
             <paper-listbox class="dropdown-content" selected="{{userProfile.state}}" attr-for-selected="name">
                 <template is="dom-repeat" items="[[_states]]">
-                    <paper-item name=[[item.name]]>[[item.abbreviation]]</paper-item>
+                    <paper-item name=[[item.abbreviation]]>[[item.name]]</paper-item>
                 </template>
-            </paper-listbox>
-        </paper-dropdown-menu>
-        <paper-input lable="Driver License Number" id= "Driver License Number" type="[[_type]]" value="{{_DLN}}" required auto-validate invalid="{{_DLNInvalid}}" error-message="Driver License Number in invalid"></paper-input>
+    </paper-listbox>
+    </paper-dropdown-menu>
+
+    <paper-input label="DLN" id="DLN" type="[[_type]]" value="{{_DLN}}" required auto-validate invalid="{{_DLNInvalid}}" pattern="{{rule}}" error-message="Driver License Number in invalid"></paper-input>
+
     </template>
+    <script>
+        'use strict';
+
+        Polymer({
+            is: 'DLN-Validation',
+
+            properties: {
+                userProfile: {
+                    type: Object,
+                    notify: true,
+                },
+
+                _type: {
+                    type: String,
+                    value: 'DLN'
+                },
+
+                userProfile: {
+                    type: Object,
+                    notify: true,
+                    value: {
+                        state: ''
+                    },
+                },
+
+                _states: {
+                    type: Array,
+                    value: [{
+                        abbreviation: 'AL',
+                        name: 'Alabama'
+                    }, {
+                        abbreviation: 'AK',
+                        name: 'Alaska'
+                    }, {
+                        abbreviation: 'AZ',
+                        name: 'Arizona'
+                    }, {
+                        abbreviation: 'AR',
+                        name: 'Arkansas'
+                    }, {
+                        abbreviation: 'CA',
+                        name: 'California'
+                    }, {
+                        abbreviation: 'CO',
+                        name: 'Colorado'
+                    }, {
+                        abbreviation: 'CT',
+                        name: 'Connecticut'
+                    }, {
+                        abbreviation: 'DE',
+                        name: 'Delaware'
+                    }, {
+                        abbreviation: 'DC',
+                        name: 'District of Columbia'
+                    }, {
+                        abbreviation: 'FL',
+                        name: 'Florida'
+                    }, {
+                        abbreviation: 'GA',
+                        name: 'Georgia'
+                    }, {
+                        abbreviation: 'HI',
+                        name: 'Hawaii'
+                    }, {
+                        abbreviation: 'ID',
+                        name: 'Idaho'
+                    }, {
+                        abbreviation: 'IL',
+                        name: 'Illinois'
+                    }, {
+                        abbreviation: 'IN',
+                        name: 'Indiana'
+                    }, {
+                        abbreviation: 'IA',
+                        name: 'Iowa'
+                    }, {
+                        abbreviation: 'KS',
+                        name: 'Kansas'
+                    }, {
+                        abbreviation: 'KY',
+                        name: 'Kentucky'
+                    }, {
+                        abbreviation: 'LA',
+                        name: 'Louisiana'
+                    }, {
+                        abbreviation: 'ME',
+                        name: 'Maine'
+                    }, {
+                        abbreviation: 'MD',
+                        name: 'Maryland'
+                    }, {
+                        abbreviation: 'MA',
+                        name: 'Massachusetts'
+                    }, {
+                        abbreviation: 'MI',
+                        name: 'Michigan'
+                    }, {
+                        abbreviation: 'MN',
+                        name: 'Minnesota'
+                    }, {
+                        abbreviation: 'MS',
+                        name: 'Mississippi'
+                    }, {
+                        abbreviation: 'MO',
+                        name: 'Missouri'
+                    }, {
+                        abbreviation: 'MT',
+                        name: 'Montana'
+                    }, {
+                        abbreviation: 'NE',
+                        name: 'Nebraska'
+                    }, {
+                        abbreviation: 'NV',
+                        name: 'Nevada'
+                    }, {
+                        abbreviation: 'NH',
+                        name: 'New Hampshire'
+                    }, {
+                        abbreviation: 'NJ',
+                        name: 'New Jersey'
+                    }, {
+                        abbreviation: 'NM',
+                        name: 'New Mexico'
+                    }, {
+                        abbreviation: 'NY',
+                        name: 'New York'
+                    }, {
+                        abbreviation: 'NC',
+                        name: 'North Carolina'
+                    }, {
+                        abbreviation: 'ND',
+                        name: 'North Dakota'
+                    }, {
+                        abbreviation: 'OH',
+                        name: 'Ohio'
+                    }, {
+                        abbreviation: 'OK',
+                        name: 'Oklahoma'
+                    }, {
+                        abbreviation: 'OR',
+                        name: 'Oregon'
+                    }, {
+                        abbreviation: 'PA',
+                        name: 'Pennsylvania'
+                    }, {
+                        abbreviation: 'RI',
+                        name: 'Rhode Island'
+                    }, {
+                        abbreviation: 'SC',
+                        name: 'South Carolina'
+                    }, {
+                        abbreviation: 'SD',
+                        name: 'South Dakota'
+                    }, {
+                        abbreviation: 'TN',
+                        name: 'Tennessee'
+                    }, {
+                        abbreviation: 'TX',
+                        name: 'Texas'
+                    }, {
+                        abbreviation: 'UT',
+                        name: 'Utah'
+                    }, {
+                        abbreviation: 'VT',
+                        name: 'Vermont'
+                    }, {
+                        abbreviation: 'VA',
+                        name: 'Virginia'
+                    }, {
+                        abbreviation: 'WA',
+                        name: 'Washington'
+                    }, {
+                        abbreviation: 'WV',
+                        name: 'West Virginia'
+                    }, {
+                        abbreviation: 'WI',
+                        name: 'Wisconsin'
+                    }, {
+                        abbreviation: 'WY',
+                        name: 'Wyoming'
+                    }, ],
+                },
+
+                // _stateIndex: {
+                //   type: Number,
+                //   value: -1
+                // },
+
+                _state: {
+                    type: String,
+                    value: 'AL',
+                }
+            },
+
+            state: {
+                type: String
+            },
+
+            // TODO: use a biztek developed state custom elementn
+            // observer below is a workaround for the bug in the dropdown where the error is not getting cleared even after the user selects an item from the drop down
+            observers: [
+                '_stateChanged(userProfile.state)'
+            ],
+            _stateChanged: function(state) {
+                if (this.userProfile.state) {
+                    this.async(function() {
+                        this.$.state.validate();
+                    }, 1000);
+                    //this.$.DLN.pattern = this.rules[this.userProfile.state];
+                    //  console.log('test'+ this.$.DLN.pattern);
+                    //  console.log('22' + this.rules[this.userProfile.state]);
+                }
+                /*  if (this.userProfile.state === 'Alaska'){
+                    this.$.DLN.pattern = "^[0-9]{1,7}$";
+                    console.log('test'+ this.$.DLN.pattern);
+                  }*/
+                var rule;
+                switch (this.userProfile.state) {
+                    case "AL":
+                        rule = "^[0-9]{1,7}$";
+                        break;
+                    case "AK":
+                        rule = "^[0-9]{1,7}$";
+                        break;
+                    case "AZ":
+                        rule = "(^[A-Z]{1}[0-9]{1,8}$)|(^[A-Z]{2}[0-9]{2,5}$)|(^[0-9]{9}$)";
+                        break;
+                    case "AR":
+                        rule = "^[0-9]{4,9}$";
+                        break;
+                    case "CA":
+                        rule = "^[A-Z]{1}[0-9]{7}$";
+                        break;
+                    case "CO":
+                        rule = "(^[0-9]{9}$)|(^[A-Z]{1}[0-9]{3,6}$)|(^[A-Z]{2}[0-9]{2,5}$)";
+                        break;
+                    case "CT":
+                        rule = "^[0-9]{9}$";
+                        break;
+                    case "DE":
+                        rule = "^[0-9]{1,7}$";
+                        break;
+                    case "DC":
+                        rule = "(^[0-9]{7}$)|(^[0-9]{9}$)";
+                        break;
+                    case "FL":
+                        rule = "^[A-Z]{1}[0-9]{12}$";
+                        break;
+                    case "GA":
+                        rule = "^[0-9]{7,9}$";
+                        break;
+                    case "HI":
+                        rule = "(^[A-Z]{1}[0-9]{8}$)|(^[0-9]{9}$)";
+                        break;
+                    case "ID":
+                        rule = "(^[A-Z]{2}[0-9]{6}[A-Z]{1}$)|(^[0-9]{9}$)";
+                        break;
+                    case "IL":
+                        rule = "^[A-Z]{1}[0-9]{11,12}$";
+                        break;
+                    case "IN":
+                        rule = "(^[A-Z]{1}[0-9]{9}$)|(^[0-9]{9,10}$)";
+                        break;
+                    case "IA":
+                        rule = "^([0-9]{9}|([0-9]{3}[A-Z]{2}[0-9]{4}))$";
+                        break;
+                    case "KS":
+                        rule = "(^([A-Z]{1}[0-9]{1}){2}[A-Z]{1}$)|(^[A-Z]{1}[0-9]{8}$)|(^[0-9]{9}$)";
+                        break;
+                    case "KY":
+                        rule = "(^[A_Z]{1}[0-9]{8,9}$)|(^[0-9]{9}$)";
+                        break;
+                    case "LA":
+                        rule = "^[0-9]{1,9}$";
+                        break;
+                    case "ME":
+                        rule = "(^[0-9]{7,8}$)|(^[0-9]{7}[A-Z]{1}$)";
+                        break;
+                    case "MD":
+                        rule = "^[A-Z]{1}[0-9]{12}$";
+                        break;
+                    case "MA":
+                        rule = "(^[A-Z]{1}[0-9]{8}$)|(^[0-9]{9}$)";
+                        break;
+                    case "MI":
+                        rule = "(^[A-Z]{1}[0-9]{10}$)|(^[A-Z]{1}[0-9]{12}$)";
+                        break;
+                    case "MN":
+                        rule = "^[A-Z]{1}[0-9]{12}$";
+                        break;
+                    case "MS":
+                        rule = "^[0-9]{9}$";
+                        break;
+                    case "MO":
+                        rule = "(^[A-Z]{1}[0-9]{5,9}$)|(^[A-Z]{1}[0-9]{6}[R]{1}$)|(^[0-9]{8}[A-Z]{2}$)|(^[0-9]{9}[A-Z]{1}$)|(^[0-9]{9}$)";
+                        break;
+                    case "MT":
+                        rule = "(^[A-Z]{1}[0-9]{8}$)|(^[0-9]{13}$)|(^[0-9]{9}$)|(^[0-9]{14}$)";
+                        break;
+                    case "NE":
+                        rule = "^[0-9]{1,7}$";
+                        break;
+                    case "NV":
+                        rule = "(^[0-9]{9,10}$)|(^[0-9]{12}$)|(^[X]{1}[0-9]{8}$)";
+                        break;
+                    case "NH":
+                        rule = "^[0-9]{2}[A-Z]{3}[0-9]{5}$";
+                        break;
+                    case "NJ":
+                        rule = "^[A-Z]{1}[0-9]{14}$";
+                        break;
+                    case "NM":
+                        rule = "^[0-9]{8,9}$";
+                        break;
+                    case "NY":
+                        rule = "(^[A-Z]{1}[0-9]{7}$)|(^[A-Z]{1}[0-9]{18}$)|(^[0-9]{8}$)|(^[0-9]{9}$)|(^[0-9]{16}$)|(^[A-Z]{8}$)";
+                        break;
+                    case "NC":
+                        rule = "^[0-9]{1,12}$";
+                        break;
+                    case "ND":
+                        rule = "(^[A-Z]{3}[0-9]{6}$)|(^[0-9]{9}$)";
+                        break;
+                    case "OH":
+                        rule = "(^[A-Z]{1}[0-9]{4,8}$)|(^[A-Z]{2}[0-9]{3,7}$)|(^[0-9]{8}$)";
+                        break;
+                    case "OK":
+                        rule = "(^[A-Z]{1}[0-9]{9}$)|(^[0-9]{9}$)";
+                        break;
+                    case "OR":
+                        rule = "^[0-9]{1,9}$";
+                        break;
+                    case "PA":
+                        rule = "^[0-9]{8}$";
+                        break;
+                    case "RI":
+                        rule = "^([0-9]{7}$)|(^[A-Z]{1}[0-9]{6}$)";
+                        break;
+                    case "SC":
+                        rule = "^[0-9]{5,11}$";
+                        break;
+                    case "SD":
+                        rule = "(^[0-9]{6,10}$)|(^[0-9]{12}$)";
+                        break;
+                    case "TN":
+                        rule = "^[0-9]{7,9}$";
+                        break;
+                    case "TX":
+                        rule = "^[0-9]{7,8}$";
+                        break;
+                    case "UT":
+                        rule = "^[0-9]{4,10}$";
+                        break;
+                    case "VT":
+                        rule = "(^[0-9]{8}$)|(^[0-9]{7}[A]$)";
+                        break;
+                    case "VA":
+                        rule = "(^[A-Z]{1}[0-9]{8,11}$)|(^[0-9]{9}$)";
+                        break;
+                    case "WA":
+                        rule = "^(?=.{12}$)[A-Z]{1,7}[A-Z0-9\\*]{4,11}$";
+                        break;
+                    case "WV":
+                        rule = "(^[0-9]{7}$)|(^[A-Z]{1,2}[0-9]{5,6}$)";
+                        break;
+                    case "WI":
+                        rule = "^[A-Z]{1}[0-9]{13}$";
+                        break;
+                    case "WY":
+                        rule = "^[0-9]{9,10}$";
+                        break;
+                }
+
+                this.$.DLN.pattern = rule;
+                console.log(this.$.DLN.pattern);
+            },
+
+            _validate: function() {
+                this.$.state.validate();
+                this.$.DLN.validate();
+
+                this.set('userProfile.state', false);
+
+                if (!this._autoValidate) {
+                    this._autoValidate = true;
+                }
+
+                return !this._stateInvalid;
+            },
+
+        });
+    </script>
 </dom-module>
-
-<script>
-    'use strict';
-
-    Polymer({
-        is: 'DriverLicenseNumber',
-
-        properties: {
-            userProfile: {
-                type: Object,
-                notify: true,
-            },
-
-            _type: {
-              type: String,
-              value: 'DLN'
-            },
-
-            _states: {
-                type: Array,
-                value: [{
-                    abbreviation: 'AL',
-                    name: 'Alabama'
-                }, {
-                    abbreviation: 'AK',
-                    name: 'Alaska'
-                }, {
-                    abbreviation: 'AZ',
-                    name: 'Arizona'
-                }, {
-                    abbreviation: 'AR',
-                    name: 'Arkansas'
-                }, {
-                    abbreviation: 'CA',
-                    name: 'California'
-                }, {
-                    abbreviation: 'CO',
-                    name: 'Colorado'
-                }, {
-                    abbreviation: 'CT',
-                    name: 'Connecticut'
-                }, {
-                    abbreviation: 'DE',
-                    name: 'Delaware'
-                }, {
-                    abbreviation: 'DC',
-                    name: 'District of Columbia'
-                }, {
-                    abbreviation: 'FL',
-                    name: 'Florida'
-                }, {
-                    abbreviation: 'GA',
-                    name: 'Georgia'
-                }, {
-                    abbreviation: 'HI',
-                    name: 'Hawaii'
-                }, {
-                    abbreviation: 'ID',
-                    name: 'Idaho'
-                }, {
-                    abbreviation: 'IL',
-                    name: 'Illinois'
-                }, {
-                    abbreviation: 'IN',
-                    name: 'Indiana'
-                }, {
-                    abbreviation: 'IA',
-                    name: 'Iowa'
-                }, {
-                    abbreviation: 'KS',
-                    name: 'Kansas'
-                }, {
-                    abbreviation: 'KY',
-                    name: 'Kentucky'
-                }, {
-                    abbreviation: 'LA',
-                    name: 'Louisiana'
-                }, {
-                    abbreviation: 'ME',
-                    name: 'Maine'
-                }, {
-                    abbreviation: 'MD',
-                    name: 'Maryland'
-                }, {
-                    abbreviation: 'MA',
-                    name: 'Massachusetts'
-                }, {
-                    abbreviation: 'MI',
-                    name: 'Michigan'
-                }, {
-                    abbreviation: 'MN',
-                    name: 'Minnesota'
-                }, {
-                    abbreviation: 'MS',
-                    name: 'Mississippi'
-                }, {
-                    abbreviation: 'MO',
-                    name: 'Missouri'
-                }, {
-                    abbreviation: 'MT',
-                    name: 'Montana'
-                }, {
-                    abbreviation: 'NE',
-                    name: 'Nebraska'
-                }, {
-                    abbreviation: 'NV',
-                    name: 'Nevada'
-                }, {
-                    abbreviation: 'NH',
-                    name: 'New Hampshire'
-                }, {
-                    abbreviation: 'NJ',
-                    name: 'New Jersey'
-                }, {
-                    abbreviation: 'NM',
-                    name: 'New Mexico'
-                }, {
-                    abbreviation: 'NY',
-                    name: 'New York'
-                }, {
-                    abbreviation: 'NC',
-                    name: 'North Carolina'
-                }, {
-                    abbreviation: 'ND',
-                    name: 'North Dakota'
-                }, {
-                    abbreviation: 'OH',
-                    name: 'Ohio'
-                }, {
-                    abbreviation: 'OK',
-                    name: 'Oklahoma'
-                }, {
-                    abbreviation: 'OR',
-                    name: 'Oregon'
-                }, {
-                    abbreviation: 'PA',
-                    name: 'Pennsylvania'
-                }, {
-                    abbreviation: 'RI',
-                    name: 'Rhode Island'
-                }, {
-                    abbreviation: 'SC',
-                    name: 'South Carolina'
-                }, {
-                    abbreviation: 'SD',
-                    name: 'South Dakota'
-                }, {
-                    abbreviation: 'TN',
-                    name: 'Tennessee'
-                }, {
-                    abbreviation: 'TX',
-                    name: 'Texas'
-                }, {
-                    abbreviation: 'UT',
-                    name: 'Utah'
-                }, {
-                    abbreviation: 'VT',
-                    name: 'Vermont'
-                }, {
-                    abbreviation: 'VA',
-                    name: 'Virginia'
-                }, {
-                    abbreviation: 'WA',
-                    name: 'Washington'
-                }, {
-                    abbreviation: 'WV',
-                    name: 'West Virginia'
-                }, {
-                    abbreviation: 'WI',
-                    name: 'Wisconsin'
-                }, {
-                    abbreviation: 'WY',
-                    name: 'Wyoming'
-                }, ],
-            },
-
-            // _stateIndex: {
-            //   type: Number,
-            //   value: -1
-            // },
-
-            _state: {
-                type: String,
-                value: 'AL',
-            }
-        },
-
-        // TODO: use a biztek developed state custom elementn
-        // observer below is a workaround for the bug in the dropdown where the error is not getting cleared even after the user selects an item from the drop down
-        observers: [
-            '_stateChanged(userProfile.state)'
-        ],
-        _stateChanged: function(state) {
-            if (state) {
-                this.async(function() {
-                    this.$.state.validate();
-                }, 1000); // TODO: need a better way instead of waiting for arbitrary 1000 msecs to validate
-            }
-        },
-
-        _validate: function() {
-            this.set('userProfile.state', false);
-
-            if (!this._autoValidate) {
-                this._autoValidate = true;
-            }
-
-            return !this._stateInvalid;
-        },
-    });
-</script>
