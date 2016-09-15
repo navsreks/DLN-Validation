@@ -42,7 +42,7 @@
     </style>
 
     <template>
-        <paper-dropdown-menu label="STATE" id="state" autocomplete required auto-validate="[[autoValidate]]" invalid="{{_stateInvalid}}" error-message="please select state">
+        <paper-dropdown-menu label="State" id="state" autocomplete required auto-validate="[[autoValidate]]" invalid="{{_stateInvalid}}" error-message="please select state">
             <paper-listbox class="dropdown-content" selected="{{userProfile.state}}" attr-for-selected="name">
                 <template is="dom-repeat" items="[[_states]]">
                     <paper-item name=[[item.abbreviation]]>[[item.name]]</paper-item>
@@ -50,232 +50,609 @@
     </paper-listbox>
     </paper-dropdown-menu>
 
-    <paper-input label="DLN" id="DLN" type="[[_type]]" value="{{_DLN}}" required auto-validate invalid="{{_DLNInvalid}}" pattern="{{rule}}" error-message="Driver License Number in invalid"></paper-input>
+    <paper-input label="Driver License Number" id="DLN" type="[[_type]]" value="{{_DLN}}" required auto-validate invalid="{{_dlnInvalid}}" pattern="[[pattern]]" error-message="{{_errorMessage}}"></paper-input>
 
     </template>
     <script>
         'use strict';
 
         Polymer({
-            is: 'DLN-Validation',
+                    is: 'DLN-Validation',
 
-            properties: {
-                userProfile: {
-                    type: Object,
-                    notify: true,
-                },
+                    properties: {
+                        _type: {
+                            type: String,
+                            value: 'DLN'
+                        },
 
-                _type: {
-                    type: String,
-                    value: 'DLN'
-                },
+                        userProfile: {
+                            type: Object,
+                            notify: true,
+                            value: {
+                                state: ''
+                            },
+                        },
 
-                userProfile: {
-                    type: Object,
-                    notify: true,
-                    value: {
-                        state: ''
-                    },
-                },
+                        _states: {
+                            type: Array,
+                            value: [{
+                                abbreviation: 'AL',
+                                name: 'Alabama'
+                            }, {
+                                abbreviation: 'AK',
+                                name: 'Alaska'
+                            }, {
+                                abbreviation: 'AZ',
+                                name: 'Arizona'
+                            }, {
+                                abbreviation: 'AR',
+                                name: 'Arkansas'
+                            }, {
+                                abbreviation: 'CA',
+                                name: 'California'
+                            }, {
+                                abbreviation: 'CO',
+                                name: 'Colorado'
+                            }, {
+                                abbreviation: 'CT',
+                                name: 'Connecticut'
+                            }, {
+                                abbreviation: 'DE',
+                                name: 'Delaware'
+                            }, {
+                                abbreviation: 'DC',
+                                name: 'District of Columbia'
+                            }, {
+                                abbreviation: 'FL',
+                                name: 'Florida'
+                            }, {
+                                abbreviation: 'GA',
+                                name: 'Georgia'
+                            }, {
+                                abbreviation: 'HI',
+                                name: 'Hawaii'
+                            }, {
+                                abbreviation: 'ID',
+                                name: 'Idaho'
+                            }, {
+                                abbreviation: 'IL',
+                                name: 'Illinois'
+                            }, {
+                                abbreviation: 'IN',
+                                name: 'Indiana'
+                            }, {
+                                abbreviation: 'IA',
+                                name: 'Iowa'
+                            }, {
+                                abbreviation: 'KS',
+                                name: 'Kansas'
+                            }, {
+                                abbreviation: 'KY',
+                                name: 'Kentucky'
+                            }, {
+                                abbreviation: 'LA',
+                                name: 'Louisiana'
+                            }, {
+                                abbreviation: 'ME',
+                                name: 'Maine'
+                            }, {
+                                abbreviation: 'MD',
+                                name: 'Maryland'
+                            }, {
+                                abbreviation: 'MA',
+                                name: 'Massachusetts'
+                            }, {
+                                abbreviation: 'MI',
+                                name: 'Michigan'
+                            }, {
+                                abbreviation: 'MN',
+                                name: 'Minnesota'
+                            }, {
+                                abbreviation: 'MS',
+                                name: 'Mississippi'
+                            }, {
+                                abbreviation: 'MO',
+                                name: 'Missouri'
+                            }, {
+                                abbreviation: 'MT',
+                                name: 'Montana'
+                            }, {
+                                abbreviation: 'NE',
+                                name: 'Nebraska'
+                            }, {
+                                abbreviation: 'NV',
+                                name: 'Nevada'
+                            }, {
+                                abbreviation: 'NH',
+                                name: 'New Hampshire'
+                            }, {
+                                abbreviation: 'NJ',
+                                name: 'New Jersey'
+                            }, {
+                                abbreviation: 'NM',
+                                name: 'New Mexico'
+                            }, {
+                                abbreviation: 'NY',
+                                name: 'New York'
+                            }, {
+                                abbreviation: 'NC',
+                                name: 'North Carolina'
+                            }, {
+                                abbreviation: 'ND',
+                                name: 'North Dakota'
+                            }, {
+                                abbreviation: 'OH',
+                                name: 'Ohio'
+                            }, {
+                                abbreviation: 'OK',
+                                name: 'Oklahoma'
+                            }, {
+                                abbreviation: 'OR',
+                                name: 'Oregon'
+                            }, {
+                                abbreviation: 'PA',
+                                name: 'Pennsylvania'
+                            }, {
+                                abbreviation: 'RI',
+                                name: 'Rhode Island'
+                            }, {
+                                abbreviation: 'SC',
+                                name: 'South Carolina'
+                            }, {
+                                abbreviation: 'SD',
+                                name: 'South Dakota'
+                            }, {
+                                abbreviation: 'TN',
+                                name: 'Tennessee'
+                            }, {
+                                abbreviation: 'TX',
+                                name: 'Texas'
+                            }, {
+                                abbreviation: 'UT',
+                                name: 'Utah'
+                            }, {
+                                abbreviation: 'VT',
+                                name: 'Vermont'
+                            }, {
+                                abbreviation: 'VA',
+                                name: 'Virginia'
+                            }, {
+                                abbreviation: 'WA',
+                                name: 'Washington'
+                            }, {
+                                abbreviation: 'WV',
+                                name: 'West Virginia'
+                            }, {
+                                abbreviation: 'WI',
+                                name: 'Wisconsin'
+                            }, {
+                                abbreviation: 'WY',
+                                name: 'Wyoming'
+                            }, ],
+                        },
 
-                _states: {
-                    type: Array,
-                    value: [{
-                        abbreviation: 'AL',
-                        name: 'Alabama'
-                    }, {
-                        abbreviation: 'AK',
-                        name: 'Alaska'
-                    }, {
-                        abbreviation: 'AZ',
-                        name: 'Arizona'
-                    }, {
-                        abbreviation: 'AR',
-                        name: 'Arkansas'
-                    }, {
-                        abbreviation: 'CA',
-                        name: 'California'
-                    }, {
-                        abbreviation: 'CO',
-                        name: 'Colorado'
-                    }, {
-                        abbreviation: 'CT',
-                        name: 'Connecticut'
-                    }, {
-                        abbreviation: 'DE',
-                        name: 'Delaware'
-                    }, {
-                        abbreviation: 'DC',
-                        name: 'District of Columbia'
-                    }, {
-                        abbreviation: 'FL',
-                        name: 'Florida'
-                    }, {
-                        abbreviation: 'GA',
-                        name: 'Georgia'
-                    }, {
-                        abbreviation: 'HI',
-                        name: 'Hawaii'
-                    }, {
-                        abbreviation: 'ID',
-                        name: 'Idaho'
-                    }, {
-                        abbreviation: 'IL',
-                        name: 'Illinois'
-                    }, {
-                        abbreviation: 'IN',
-                        name: 'Indiana'
-                    }, {
-                        abbreviation: 'IA',
-                        name: 'Iowa'
-                    }, {
-                        abbreviation: 'KS',
-                        name: 'Kansas'
-                    }, {
-                        abbreviation: 'KY',
-                        name: 'Kentucky'
-                    }, {
-                        abbreviation: 'LA',
-                        name: 'Louisiana'
-                    }, {
-                        abbreviation: 'ME',
-                        name: 'Maine'
-                    }, {
-                        abbreviation: 'MD',
-                        name: 'Maryland'
-                    }, {
-                        abbreviation: 'MA',
-                        name: 'Massachusetts'
-                    }, {
-                        abbreviation: 'MI',
-                        name: 'Michigan'
-                    }, {
-                        abbreviation: 'MN',
-                        name: 'Minnesota'
-                    }, {
-                        abbreviation: 'MS',
-                        name: 'Mississippi'
-                    }, {
-                        abbreviation: 'MO',
-                        name: 'Missouri'
-                    }, {
-                        abbreviation: 'MT',
-                        name: 'Montana'
-                    }, {
-                        abbreviation: 'NE',
-                        name: 'Nebraska'
-                    }, {
-                        abbreviation: 'NV',
-                        name: 'Nevada'
-                    }, {
-                        abbreviation: 'NH',
-                        name: 'New Hampshire'
-                    }, {
-                        abbreviation: 'NJ',
-                        name: 'New Jersey'
-                    }, {
-                        abbreviation: 'NM',
-                        name: 'New Mexico'
-                    }, {
-                        abbreviation: 'NY',
-                        name: 'New York'
-                    }, {
-                        abbreviation: 'NC',
-                        name: 'North Carolina'
-                    }, {
-                        abbreviation: 'ND',
-                        name: 'North Dakota'
-                    }, {
-                        abbreviation: 'OH',
-                        name: 'Ohio'
-                    }, {
-                        abbreviation: 'OK',
-                        name: 'Oklahoma'
-                    }, {
-                        abbreviation: 'OR',
-                        name: 'Oregon'
-                    }, {
-                        abbreviation: 'PA',
-                        name: 'Pennsylvania'
-                    }, {
-                        abbreviation: 'RI',
-                        name: 'Rhode Island'
-                    }, {
-                        abbreviation: 'SC',
-                        name: 'South Carolina'
-                    }, {
-                        abbreviation: 'SD',
-                        name: 'South Dakota'
-                    }, {
-                        abbreviation: 'TN',
-                        name: 'Tennessee'
-                    }, {
-                        abbreviation: 'TX',
-                        name: 'Texas'
-                    }, {
-                        abbreviation: 'UT',
-                        name: 'Utah'
-                    }, {
-                        abbreviation: 'VT',
-                        name: 'Vermont'
-                    }, {
-                        abbreviation: 'VA',
-                        name: 'Virginia'
-                    }, {
-                        abbreviation: 'WA',
-                        name: 'Washington'
-                    }, {
-                        abbreviation: 'WV',
-                        name: 'West Virginia'
-                    }, {
-                        abbreviation: 'WI',
-                        name: 'Wisconsin'
-                    }, {
-                        abbreviation: 'WY',
-                        name: 'Wyoming'
-                    }, ],
-                },
+                        // _stateIndex: {
+                        //   type: Number,
+                        //   value: -1
+                        // },
 
-                // _stateIndex: {
-                //   type: Number,
-                //   value: -1
-                // },
+                        _errorMessage: {
+                          type: String
+                        },
 
-                _state: {
-                    type: String,
-                    value: 'AL',
-                }
-            },
+                        _rules: {
+                            type: Array,
+                            value: {
+                                "AL": {
+                                    "rule": "^[0-9]{1,7}$",
+                                    "description": [
+                                        "1-7 Numeric"
+                                    ]
+                                },
+                                "AK": {
+                                    "rule": "^[0-9]{1,7}$",
+                                    "description": [
+                                        "1-7 Numbers"
+                                    ]
+                                },
+                                "AZ": {
+                                    "rule": "(^[A-Z]{1}[0-9]{1,8}$)|(^[A-Z]{2}[0-9]{2,5}$)|(^[0-9]{9}$)",
+                                    "description": [
+                                        "1 Alpha + 1-8 Numeric",
+                                        "2 Alpha + 2-5 Numeric",
+                                        "9 Numeric"
+                                    ]
+                                },
+                                "AR": {
+                                    "rule": "^[0-9]{4,9}$",
+                                    "description": [
+                                        "4-9 Numeric"
+                                    ]
+                                },
+                                "CA": {
+                                    "rule": "^[A-Z]{1}[0-9]{7}$",
+                                    "description": [
+                                        "1 Alpha + 7 Numeric"
+                                    ]
+                                },
+                                "CO": {
+                                    "rule": "(^[0-9]{9}$)|(^[A-Z]{1}[0-9]{3,6}$)|(^[A-Z]{2}[0-9]{2,5}$)",
+                                    "description": [
+                                        "9 Numeric",
+                                        "1 Alpha + 3-6 Numeric",
+                                        "2 Alpha + 2-5 Numeric"
+                                    ]
+                                },
+                                "CT": {
+                                    "rule": "^[0-9]{9}$",
+                                    "description": [
+                                        "9 Numeric"
+                                    ]
+                                },
+                                "DE": {
+                                    "rule": "^[0-9]{1,7}$",
+                                    "description": [
+                                        "1-7 Numeric"
+                                    ]
+                                },
+                                "DC": {
+                                    "rule": "(^[0-9]{7}$)|(^[0-9]{9}$)",
+                                    "description": [
+                                        "7 Numeric",
+                                        "9 Numeric"
+                                    ]
+                                },
+                                "FL": {
+                                    "rule": "^[A-Z]{1}[0-9]{12}$",
+                                    "description": [
+                                        "1 Alpha + 12 Numeric"
+                                    ]
+                                },
+                                "GA": {
+                                    "rule": "^[0-9]{7,9}$",
+                                    "description": [
+                                        "7-9 Numeric"
+                                    ]
+                                },
+                                "GU": {
+                                    "rule": "^[A-Z]{1}[0-9]{14}$",
+                                    "description": [
+                                        "1 Alpha + 14 Numeric"
+                                    ]
+                                },
+                                "HI": {
+                                    "rule": "(^[A-Z]{1}[0-9]{8}$)|(^[0-9]{9}$)",
+                                    "description": [
+                                        "1 Alpha + 8 Numeric",
+                                        "9 Numeric"
+                                    ]
+                                },
+                                "ID": {
+                                    "rule": "(^[A-Z]{2}[0-9]{6}[A-Z]{1}$)|(^[0-9]{9}$)",
+                                    "description": [
+                                        "2 Alpha + 6 Numeric + 1 Alpha",
+                                        "9 Numeric"
+                                    ]
+                                },
+                                "IL": {
+                                    "rule": "^[A-Z]{1}[0-9]{11,12}$",
+                                    "description": [
+                                        "1 Alpha + 11-12 Numeric"
+                                    ]
+                                },
+                                "IN": {
+                                    "rule": "(^[A-Z]{1}[0-9]{9}$)|(^[0-9]{9,10}$)",
+                                    "description": [
+                                        "1 Alpha + 9 Numeric",
+                                        "9-10 Numeric"
+                                    ]
+                                },
+                                "IA": {
+                                    "rule": "^([0-9]{9}|([0-9]{3}[A-Z]{2}[0-9]{4}))$",
+                                    "description": [
+                                        "9 Numeric",
+                                        "3 Numeric + 2 Alpha + 4 Numeric"
+                                    ]
+                                },
+                                "KS": {
+                                    "rule": "(^([A-Z]{1}[0-9]{1}){2}[A-Z]{1}$)|(^[A-Z]{1}[0-9]{8}$)|(^[0-9]{9}$)",
+                                    "description": [
+                                        "1 Alpha + 1 Numeric + 1 Alpha + 1 Numeric + 1 Alpha",
+                                        "1 Alpha + 8 Numeric",
+                                        "9 Numeric"
+                                    ]
+                                },
+                                "KY": {
+                                    "rule": "(^[A_Z]{1}[0-9]{8,9}$)|(^[0-9]{9}$)",
+                                    "description": [
+                                        "1 Alpha + 8-9 Numeric",
+                                        "9 Numeric"
+                                    ]
+                                },
+                                "LA": {
+                                    "rule": "^[0-9]{1,9}$",
+                                    "description": [
+                                        "1-9 Numeric"
+                                    ]
+                                },
+                                "ME": {
+                                    "rule": "(^[0-9]{7,8}$)|(^[0-9]{7}[A-Z]{1}$)",
+                                    "description": [
+                                        "7-8 Numeric",
+                                        "7 Numeric + 1 Alpha"
+                                    ]
+                                },
+                                "MD": {
+                                    "rule": "^[A-Z]{1}[0-9]{12}$",
+                                    "description": [
+                                        "1Alpha+12Numeric"
+                                    ]
+                                },
+                                "MA": {
+                                    "rule": "(^[A-Z]{1}[0-9]{8}$)|(^[0-9]{9}$)",
+                                    "description": [
+                                        "1 Alpha + 8 Numeric",
+                                        "9 Numeric"
+                                    ]
+                                },
+                                "MI": {
+                                    "rule": "(^[A-Z]{1}[0-9]{10}$)|(^[A-Z]{1}[0-9]{12}$)",
+                                    "description": [
+                                        "1 Alpha + 10 Numeric",
+                                        "1 Alpha + 12 Numeric"
+                                    ]
+                                },
+                                "MN": {
+                                    "rule": "^[A-Z]{1}[0-9]{12}$",
+                                    "description": [
+                                        "1 Alpha + 12 Numeric"
+                                    ]
+                                },
+                                "MS": {
+                                    "rule": "^[0-9]{9}$",
+                                    "description": [
+                                        "9 Numeric"
+                                    ]
+                                },
+                                "MO": {
+                                    "rule": "(^[A-Z]{1}[0-9]{5,9}$)|(^[A-Z]{1}[0-9]{6}[R]{1}$)|(^[0-9]{8}[A-Z]{2}$)|(^[0-9]{9}[A-Z]{1}$)|(^[0-9]{9}$)",
+                                    "description": [
+                                        "1 Alpha + 5-9 Numeric",
+                                        "1 Alpha + 6 Numeric + 'R'",
+                                        "8 Numeric + 2 Alpha",
+                                        "9 Numeric + 1 Alpha",
+                                        "9 Numeric"
+                                    ]
+                                },
+                                "MT": {
+                                    "rule": "(^[A-Z]{1}[0-9]{8}$)|(^[0-9]{13}$)|(^[0-9]{9}$)|(^[0-9]{14}$)",
+                                    "description": [
+                                        "1 Alpha + 8 Numeric",
+                                        "13 Numeric",
+                                        "9 Numeric",
+                                        "14 Numeric"
+                                    ]
+                                },
+                                "NE": {
+                                    "rule": "^[0-9]{1,7}$",
+                                    "description": [
+                                        "1-7 Numeric"
+                                    ]
+                                },
+                                "NV": {
+                                    "rule": "(^[0-9]{9,10}$)|(^[0-9]{12}$)|(^[X]{1}[0-9]{8}$)",
+                                    "description": [
+                                        "9 Numeric",
+                                        "10 Numeric",
+                                        "12 Numeric",
+                                        "'X' + 8 Numeric"
+                                    ]
+                                },
+                                "NH": {
+                                    "rule": "^[0-9]{2}[A-Z]{3}[0-9]{5}$",
+                                    "description": [
+                                        "2 Numeric + 3 Alpha + 5 Numeric"
+                                    ]
+                                },
+                                "NJ": {
+                                    "rule": "^[A-Z]{1}[0-9]{14}$",
+                                    "description": [
+                                        "1 Alpha + 14 Numeric"
+                                    ]
+                                },
+                                "NM": {
+                                    "rule": "^[0-9]{8,9}$",
+                                    "description": [
+                                        "8 Numeric",
+                                        "9 Numeric"
+                                    ]
+                                },
+                                "NY": {
+                                    "rule": "(^[A-Z]{1}[0-9]{7}$)|(^[A-Z]{1}[0-9]{18}$)|(^[0-9]{8}$)|(^[0-9]{9}$)|(^[0-9]{16}$)|(^[A-Z]{8}$)",
+                                    "description": [
+                                        "1 Alpha + 7 Numeric",
+                                        "1 Alpha + 18 Numeric",
+                                        "8 Numeric",
+                                        "9 Numeric",
+                                        "16 Numeric",
+                                        "8 Alpha"
+                                    ]
+                                },
+                                "NC": {
+                                    "rule": "^[0-9]{1,12}$",
+                                    "description": [
+                                        "1-12 Numeric"
+                                    ]
+                                },
+                                "ND": {
+                                    "rule": "(^[A-Z]{3}[0-9]{6}$)|(^[0-9]{9}$)",
+                                    "description": [
+                                        "3 Alpha + 6 Numeric",
+                                        "9 Numeric"
+                                    ]
+                                },
+                                "OH": {
+                                    "rule": "(^[A-Z]{1}[0-9]{4,8}$)|(^[A-Z]{2}[0-9]{3,7}$)|(^[0-9]{8}$)",
+                                    "description": [
+                                        "1 Alpha + 4-8 Numeric",
+                                        "2 Alpha + 3-7 Numeric",
+                                        "8 Numeric"
+                                    ]
+                                },
+                                "OK": {
+                                    "rule": "(^[A-Z]{1}[0-9]{9}$)|(^[0-9]{9}$)",
+                                    "description": [
+                                        "1 Alpha + 9 Numeric",
+                                        "9 Numeric"
+                                    ]
+                                },
+                                "OR": {
+                                    "rule": "^[0-9]{1,9}$",
+                                    "description": [
+                                        "1-9 Numeric"
+                                    ]
+                                },
+                                "PA": {
+                                    "rule": "^[0-9]{8}$",
+                                    "description": [
+                                        "8 Numeric"
+                                    ]
+                                },
+                                "PR": {
+                                    "rule": "(^[0-9]{9}$)|(^[0-9]{5,7}$)",
+                                    "description": [
+                                        "5-7 Numeric",
+                                        "9 Numeric"
+                                    ]
+                                },
+                                "RI": {
+                                    "rule": "^([0-9]{7}$)|(^[A-Z]{1}[0-9]{6}$)",
+                                    "description": [
+                                        "7 Numeric",
+                                        "1 Alpha + 6 Numeric"
+                                    ]
+                                },
+                                "SC": {
+                                    "rule": "^[0-9]{5,11}$",
+                                    "description": [
+                                        "5-11 Numeric"
+                                    ]
+                                },
+                                "SD": {
+                                    "rule": "(^[0-9]{6,10}$)|(^[0-9]{12}$)",
+                                    "description": [
+                                        "6-10 Numeric",
+                                        "12 Numeric"
+                                    ]
+                                },
+                                "TN": {
+                                    "rule": "^[0-9]{7,9}$",
+                                    "description": [
+                                        "7-9 Numeric"
+                                    ]
+                                },
+                                "TX": {
+                                    "rule": "^[0-9]{7,8}$",
+                                    "description": [
+                                        "7-8 Numeric"
+                                    ]
+                                },
+                                "UT": {
+                                    "rule": "^[0-9]{4,10}$",
+                                    "description": [
+                                        "4-10 Numeric"
+                                    ]
+                                },
+                                "VT": {
+                                    "rule": "(^[0-9]{8}$)|(^[0-9]{7}[A]$)",
+                                    "description": [
+                                        "8 Numeric",
+                                        "7 Numeric + 'A'"
+                                    ]
+                                },
+                                "VA": {
+                                    "rule": "(^[A-Z]{1}[0-9]{8,11}$)|(^[0-9]{9}$)",
+                                    "description": [
+                                        "1 Alpha + 8 Numeric",
+                                        "1 Alpha + 9 Numeric",
+                                        "1 Alpha + 10 Numeric",
+                                        "1 Alpha + 11 Numeric",
+                                        "9 Numeric"
+                                    ]
+                                },
+                                "WA": {
+                                    "rule": "^(?=.{12}$)[A-Z]{1,7}[A-Z0-9\\*]{4,11}$",
+                                    "description": [
+                                        "1-7 Alpha + any combination of Alpha, Numeric, and * for a total of 12 characters"
+                                    ]
+                                },
+                                "WV": {
+                                    "rule": "(^[0-9]{7}$)|(^[A-Z]{1,2}[0-9]{5,6}$)",
+                                    "description": [
+                                        "7 Numeric",
+                                        "1-2 Alpha + 5-6 Numeric"
+                                    ]
+                                },
+                                "WI": {
+                                    "rule": "^[A-Z]{1}[0-9]{13}$",
+                                    "description": [
+                                        "1 Alpha + 13 Numeric"
+                                    ]
+                                },
+                                "WY": {
+                                    "rule": "^[0-9]{9,10}$",
+                                    "description": [
+                                        "9-10 Numeric"
+                                    ]
+                                },
+                            },
+                        },
 
-            state: {
-                type: String
-            },
 
-            // TODO: use a biztek developed state custom elementn
-            // observer below is a workaround for the bug in the dropdown where the error is not getting cleared even after the user selects an item from the drop down
-            observers: [
-                '_stateChanged(userProfile.state)'
-            ],
-            _stateChanged: function(state) {
-                if (this.userProfile.state) {
-                    this.async(function() {
-                        this.$.state.validate();
-                    }, 1000);
-                    //this.$.DLN.pattern = this.rules[this.userProfile.state];
-                    //  console.log('test'+ this.$.DLN.pattern);
-                    //  console.log('22' + this.rules[this.userProfile.state]);
-                }
-                /*  if (this.userProfile.state === 'Alaska'){
-                    this.$.DLN.pattern = "^[0-9]{1,7}$";
-                    console.log('test'+ this.$.DLN.pattern);
-                  }*/
-                var rule;
+                        _state: {
+                            type: String,
+                            value: 'AL',
+                        },
+
+                        state: {
+                            type: String
+                        },
+                          },
+
+                        // TODO: use a biztek developed state custom elementn
+                        // observer below is a workaround for the bug in the dropdown where the error is not getting cleared even after the user selects an item from the drop down
+                        observers: [
+                            '_stateChanged(userProfile.state)'
+                        ],
+                        _stateChanged: function(state) {
+                            if (this.userProfile.state) {
+                                this.async(function() {
+                                    this.$.state.validate();
+                                }, 1000);
+                                console.log('one' + this.$.DLN);
+                                this.$.DLN.pattern = this._rules[this.userProfile.state].rule;
+                                this.$.DLN._errorMessage = this._rules[this.userProfile.state].description;
+                                console.log(this._rules[this.userProfile.state]);
+                                console.log('pattern' + this.$.DLN.pattern);
+                                console.log('err msg' + this.$.DLN._errorMessage);
+                            }
+                        },
+
+
+                        /*  if (this.userProfile.state === 'Alaska'){
+                            this.$.DLN.pattern = "^[0-9]{1,7}$";
+                            console.log('test'+ this.$.DLN.pattern);
+                          }*/
+                        /*var rule;
+                var err_msg;
                 switch (this.userProfile.state) {
                     case "AL":
                         rule = "^[0-9]{1,7}$";
+                        err_msg = "DLN fromat should be 1234567";
                         break;
                     case "AK":
                         rule = "^[0-9]{1,7}$";
+                        err_msg = "DLN fromat should be 1234567";
                         break;
                     case "AZ":
                         rule = "(^[A-Z]{1}[0-9]{1,8}$)|(^[A-Z]{2}[0-9]{2,5}$)|(^[0-9]{9}$)";
@@ -425,24 +802,26 @@
                         rule = "^[0-9]{9,10}$";
                         break;
                 }
-
+                this.$.DLN.error = err_msg;
+                console.log('yes'+ err_msg);
                 this.$.DLN.pattern = rule;
-                console.log(this.$.DLN.pattern);
-            },
-
-            _validate: function() {
-                this.$.state.validate();
-                this.$.DLN.validate();
-
-                this.set('userProfile.state', false);
-
-                if (!this._autoValidate) {
-                    this._autoValidate = true;
+                if (this._DLNInvalid = true ) {
+                  console.log('test'+ rule);
                 }
+            },*/
 
-                return !this._stateInvalid;
-            },
+                        _validate: function() {
+                          this.set('userProfile.state', false);
 
-        });
+                            if (!this._autoValidate) {
+                                this._autoValidate = true;
+                                this.$.state.validate();
+                                this.$.DLN.validate();
+                            }
+
+                            return !this._stateInvalid && !this._dlnInvalid;
+                        },
+
+                    });
     </script>
 </dom-module>
