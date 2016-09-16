@@ -50,7 +50,7 @@
     </paper-listbox>
     </paper-dropdown-menu>
 
-    <paper-input label="Driver License Number" id="DLN" disabled$="[[disabled]]" type="[[_type]]" value="{{_DLN}}" required auto-validate invalid="{{_dlnInvalid}}" pattern="[[pattern]]" error-message="{{_errorMessage}}"></paper-input>
+    <paper-input label="Driver License Number" id="DLN" disabled$="[[disabled]]" type="[[_type]]" value="{{_DLN}}" required auto-validate invalid="{{_dlnInvalid}}" pattern="[[pattern]]" error-message="please enter dln in format: [[_errorMessage]]"></paper-input>
 
     </template>
     <script>
@@ -242,12 +242,11 @@
                 // },
 
                 _errorMessage: {
-                    type: Object,
+                    type: String,
                     notify: true,
                     value: {
                         description: ''
                     },
-                },
                 },
 
                 _rules: {
@@ -632,8 +631,7 @@
             // TODO: use a biztek developed state custom elementn
             // observer below is a workaround for the bug in the dropdown where the error is not getting cleared even after the user selects an item from the drop down
             observers: [
-                '_stateChanged(userProfile.state)'
-            ],
+                '_stateChanged(userProfile.state)'],
             _stateChanged: function(state) {
                 if (this.userProfile.state) {
                     this.async(function() {
@@ -643,10 +641,11 @@
                     //console.log('one' + this.$.DLN);
                     this.$.DLN.pattern = this._rules[this.userProfile.state].rule;
                     this.$.DLN._errorMessage = this._rules[this.userProfile.state].description;
+                    var _errorMessage = this.$.DLN._errorMessage;
                     //  console.log(this._rules[this.userProfile.state]);
                     //  console.log('pattern' + this.$.DLN.pattern);
                     //console.log('err msg' + this.$.DLN._errorMessage);
-                    console.warn(this.$.DLN._errorMessage);
+                    return _errorMessage;
 
                 }
             },
