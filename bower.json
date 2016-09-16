@@ -1,7 +1,7 @@
 {
-  "name": "DLN-Validation",
+  "name": "pmp-dln-validation",
   "description": "validate driver license numbers based on US states",
-  "main": "DLN-Validation.html",
+  "main": "pmp-dln-validation.html",
   "dependencies": {
     "polymer": "Polymer/polymer#^1.4.0"
   },

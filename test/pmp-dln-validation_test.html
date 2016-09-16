@@ -26,12 +26,12 @@
 
     <test-fixture id="basic">
         <template>
-            <DriverLicenseNumber></DriverLicenseNumber>
+            <pmp-dln-validation></pmp-dln-validation>
         </template>
     </test-fixture>
 
     <script>
-        suite('DriverLicenseNumber', function() {
+        suite('pmp-dln-validation', function() {
             var statesList;
             statesList = fixture('basic');
             content = Polymer.dom(statesList).querySelector('.dropdown-content');

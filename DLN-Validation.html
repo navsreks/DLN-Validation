@@ -8,7 +8,7 @@
 
 
 
-<dom-module id="DLN-Validation">
+<dom-module id="pmp-dln-validation">
     <style>
          :host {
             display: block;
@@ -50,14 +50,14 @@
     </paper-listbox>
     </paper-dropdown-menu>
 
-    <paper-input label="Driver License Number" id="DLN" disabled$="[[disabled]]" type="[[_type]]" value="{{_DLN}}" required auto-validate invalid="{{_dlnInvalid}}" pattern="[[pattern]]" error-message="{{_errorMessage}}"></paper-input>
+    <paper-input label="Driver License Number" id="DLN" disabled$="[[disabled]]" type="[[_type]]" value="{{_DLN}}" required auto-validate invalid="{{_dlnInvalid}}" pattern="[[pattern]]" error-message="{{this.$.DLN._errorMessage}}"></paper-input>
 
     </template>
     <script>
         'use strict';
 
         Polymer({
-                    is: 'DLN-Validation',
+                    is: 'pmp-dln-validation',
 
                     properties: {
                         _type: {
@@ -76,6 +76,10 @@
                             value: {
                                 state: ''
                             },
+                        },
+
+                        _DLN:{
+                            type: String
                         },
 
                         _states: {
@@ -627,7 +631,7 @@
                         // TODO: use a biztek developed state custom elementn
                         // observer below is a workaround for the bug in the dropdown where the error is not getting cleared even after the user selects an item from the drop down
                         observers: [
-                            '_stateChanged(userProfile.state)'
+                            '_stateChanged(userProfile.state)', '_patternVerify(_DLN)'
                         ],
                         _stateChanged: function(state) {
                             if (this.userProfile.state) {
@@ -637,10 +641,25 @@
                                 this.disabled = false;
                                 console.log('one' + this.$.DLN);
                                 this.$.DLN.pattern = this._rules[this.userProfile.state].rule;
+                                console.log(this._rules[this.userProfile.state]);
+                                console.log('pattern' + this.$.DLN.pattern);
+                                console.log('err msg' + this.$.DLN._errorMessage);
+                                console.warn(this.$.DLN._errorMessage);
+
+                            }
+                        },
+                            _patternVerify: function(_DLN) {
+                            if (this._DLN) {
+                                this.async(function() {
+                                    this.$.DLN.validate();
+                                }, 1000);
+                                console.log('one' + this.$.DLN);
                                 this.$.DLN._errorMessage = this._rules[this.userProfile.state].description;
                                 console.log(this._rules[this.userProfile.state]);
                                 console.log('pattern' + this.$.DLN.pattern);
                                 console.log('err msg' + this.$.DLN._errorMessage);
+                                console.log('err msg' + {{_errorMessage}});
+
                             }
                         },
 
