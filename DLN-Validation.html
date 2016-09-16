@@ -50,7 +50,7 @@
     </paper-listbox>
     </paper-dropdown-menu>
 
-    <paper-input label="Driver License Number" id="DLN" type="[[_type]]" value="{{_DLN}}" required auto-validate invalid="{{_dlnInvalid}}" pattern="[[pattern]]" error-message="{{_errorMessage}}"></paper-input>
+    <paper-input label="Driver License Number" id="DLN" disabled$="[[disabled]]" type="[[_type]]" value="{{_DLN}}" required auto-validate invalid="{{_dlnInvalid}}" pattern="[[pattern]]" error-message="{{_errorMessage}}"></paper-input>
 
     </template>
     <script>
@@ -64,6 +64,11 @@
                             type: String,
                             value: 'DLN'
                         },
+
+                        disabled: {
+                                  type: Boolean,
+                                  value: true,
+                                },
 
                         userProfile: {
                             type: Object,
@@ -629,6 +634,7 @@
                                 this.async(function() {
                                     this.$.state.validate();
                                 }, 1000);
+                                this.disabled = false;
                                 console.log('one' + this.$.DLN);
                                 this.$.DLN.pattern = this._rules[this.userProfile.state].rule;
                                 this.$.DLN._errorMessage = this._rules[this.userProfile.state].description;
