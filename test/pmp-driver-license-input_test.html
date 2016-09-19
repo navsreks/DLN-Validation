@@ -14,7 +14,7 @@
     <link rel="import" href="../../iron-overlay-behavior/iron-overlay-behavior.html">
     <link rel="import" href="../../iron-validatable-behavior/iron-validatable-behavior.html">
     <link rel="import" href="../../test-fixture/test-fixture.html">
-    <link rel="import" href="../DriverLicenseNumber.html">
+    <link rel="import" href="../pmp-driver-license-input.html">
     <link rel="import" href="../../paper-listbox/paper-listbox.html">
     <link rel="import" href="../../paper-item/paper-item.html">
     <link rel="import" href="../../test-fixture/test-fixture.html">
@@ -26,12 +26,12 @@
 
     <test-fixture id="basic">
         <template>
-            <pmp-dln-validation></pmp-dln-validation>
+            <pmp-driver-license-input></pmp-driver-license-input>
         </template>
     </test-fixture>
 
     <script>
-        suite('pmp-dln-validation', function() {
+        suite('pmp-driver-license-input', function() {
             var statesList;
             statesList = fixture('basic');
             content = Polymer.dom(statesList).querySelector('.dropdown-content');
